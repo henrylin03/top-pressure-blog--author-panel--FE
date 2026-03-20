@@ -16,7 +16,7 @@ import logoImg from "/images/logo.png";
 
 export const Route = createFileRoute("/login")({
 	validateSearch: (search) => ({
-		redirect: (search.redirect as string) || "/",
+		redirect: (search.redirect as string) || "/posts",
 	}),
 	beforeLoad: ({ context, search }) => {
 		if (context.auth.user) throw redirect({ to: search.redirect });
