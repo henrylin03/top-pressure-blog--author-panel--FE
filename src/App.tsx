@@ -1,10 +1,10 @@
 import { MantineProvider } from "@mantine/core";
 import { RouterProvider } from "@tanstack/react-router";
 import { AuthProvider, useAuth } from "./contexts/auth";
-import { router } from "./router";
 import { theme } from "./styles/theme";
 import "./styles/global.css";
 import "@mantine/core/styles.css";
+import { router } from "./router";
 
 const InnerApp = () => {
 	const auth = useAuth();
