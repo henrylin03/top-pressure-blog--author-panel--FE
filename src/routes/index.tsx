@@ -1,12 +1,13 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-	validateSearch: (search) => ({
-		redirect: (search.redirect as string) || "/posts",
-	}),
-	beforeLoad: ({ context, search }) => {
-		if (!context.auth.user) throw redirect({ to: "/login", search });
-		else throw redirect({ to: search.redirect });
-	},
-	component: () => <Outlet />,
+	component: HomePageRedirection,
 });
+
+function HomePageRedirection() {
+	const { auth } = Route.useRouteContext();
+	const { user } = auth;
+
+	if (!user) return <Navigate to="/login" />;
+	else return <Navigate to="/posts" />;
+}

@@ -10,30 +10,25 @@ import {
 	Title,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Navigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import logoImg from "/images/logo.png";
 
 export const Route = createFileRoute("/login")({
-	validateSearch: (search) => ({
-		redirect: (search.redirect as string) || "/posts",
-	}),
-	beforeLoad: ({ context, search }) => {
-		if (context.auth.user) throw redirect({ to: search.redirect });
-	},
 	component: LoginPage,
 });
 
 function LoginPage() {
 	const { auth } = Route.useRouteContext();
-	const { redirect } = Route.useSearch();
 	const navigate = Route.useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const isNarrowScreen = useMediaQuery("(max-width: 48em)");
 	const router = useRouter();
 
-	const { login } = auth;
+	const { user, login } = auth;
+
+	if (user) return <Navigate to="/posts" />;
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -50,7 +45,7 @@ function LoginPage() {
 
 			await login(usernameOrEmail.toString(), password.toString());
 			await router.invalidate();
-			navigate({ to: redirect });
+			navigate({ to: "/posts" });
 		} catch (err) {
 			if (err instanceof Error) {
 				console.error(err.message);
