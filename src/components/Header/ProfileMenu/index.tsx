@@ -1,7 +1,7 @@
 import UserAvatar from "@components/UserAvatar";
 import { Group, Menu, Text } from "@mantine/core";
 import { IconAlignLeft2, IconLogout } from "@tabler/icons-react";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import type { AuthState } from "@/contexts/auth";
 import type { User } from "@/types/user";
 import ProfileButton from "./ProfileButton";
@@ -10,12 +10,14 @@ type Props = { user: User; logout: AuthState["logout"] };
 
 const ProfileMenu = ({ user, logout }: Props) => {
 	const router = useRouter();
+	const navigate = useNavigate();
 
 	const { username, email, isAuthor } = user;
 
-	const handleSignOut = async () => {
+	const handleSignOut = () => {
 		logout();
-		await router.invalidate();
+		router.invalidate();
+		navigate({ to: "/login" });
 	};
 
 	return (
