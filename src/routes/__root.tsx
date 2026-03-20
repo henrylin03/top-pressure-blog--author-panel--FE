@@ -1,20 +1,28 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-const RootLayout = () => (
-	<>
-		<div className="p-2 flex gap-2">
-			<Link to="/" className="[&.active]:font-bold">
-				Home
-			</Link>{" "}
-			<Link to="/about" className="[&.active]:font-bold">
-				About
-			</Link>
-		</div>
-		<hr />
-		<Outlet />
-		<TanStackRouterDevtools />
-	</>
-);
+const RootLayout = () => {
+	return (
+		<>
+			<HeadContent />
 
-export const Route = createRootRoute({ component: RootLayout });
+			<main>
+				<Outlet />
+			</main>
+
+			<TanStackRouterDevtools />
+		</>
+	);
+};
+
+export const Route = createRootRoute({
+	component: RootLayout,
+	head: () => ({
+		meta: [
+			{
+				title:
+					"BJJ, Wrestling, Judo | Top Pressure Blog for Submission Grapplers",
+			},
+		],
+	}),
+});
