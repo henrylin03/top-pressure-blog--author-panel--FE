@@ -23,13 +23,7 @@ const Header = () => {
 					</Title>
 				</Group>
 
-				{user && (
-					<ProfileMenu
-						username={user.username}
-						email={user.email}
-						logout={logout}
-					/>
-				)}
+				{user && <ProfileMenu user={user} logout={logout} />}
 			</Group>
 		</Paper>
 	);
