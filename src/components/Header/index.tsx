@@ -18,7 +18,7 @@ const Header = () => {
 					)}
 				>
 					<img src={logo} loading="eager" alt="logo" width="32" height="32" />
-					<Title order={1} fz="h2" mb={4} visibleFrom="sm">
+					<Title order={1} fz="h3" mb={4} visibleFrom="sm">
 						Top Pressure
 					</Title>
 				</Group>
