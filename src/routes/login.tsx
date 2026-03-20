@@ -9,6 +9,7 @@ import {
 	TextInput,
 	Title,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth";
@@ -22,6 +23,7 @@ function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const { login } = useAuth();
+	const isNarrowScreen = useMediaQuery("(max-width: 48em)");
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -54,10 +56,10 @@ function LoginPage() {
 		<Container mt="6rem">
 			<Card
 				shadow="sm"
-				maw="24rem"
+				maw="20rem"
 				mx="auto"
 				py={{ base: "xl", xs: "4rem" }}
-				px={{ base: "lg", xs: "2.5rem" }}
+				px={{ base: "lg", xs: "xl" }}
 				radius="lg"
 			>
 				<Stack align="center" gap="xl">
@@ -70,7 +72,7 @@ function LoginPage() {
 							loading="eager"
 							alt="Logo of Top Pressure Blog"
 						/>
-						<Title order={2} fz="h1" c="dark.6">
+						<Title order={2} fz="h1" c="dark.6" ta="center">
 							Welcome back!
 						</Title>
 					</Stack>
@@ -82,7 +84,7 @@ function LoginPage() {
 									placeholder="Email or username"
 									required
 									name="usernameOrEmail"
-									size="md"
+									size={isNarrowScreen ? "sm" : "md"}
 								/>
 							</li>
 							<li>
@@ -90,7 +92,7 @@ function LoginPage() {
 									placeholder="Password"
 									required
 									name="password"
-									size="md"
+									size={isNarrowScreen ? "sm" : "md"}
 								/>
 							</li>
 							{error && (
@@ -101,7 +103,12 @@ function LoginPage() {
 								</li>
 							)}
 							<li>
-								<Button size="lg" fullWidth type="submit" loading={isLoading}>
+								<Button
+									size={isNarrowScreen ? "md" : "lg"}
+									fullWidth
+									type="submit"
+									loading={isLoading}
+								>
 									Sign in
 								</Button>
 							</li>
