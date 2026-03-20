@@ -4,12 +4,14 @@ import {
 	Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import Header from "@/components/Header";
 import type { AuthState } from "@/contexts/auth";
 
 const RootLayout = () => (
 	<>
 		<HeadContent />
 
+		<Header />
 		<main>
 			<Outlet />
 		</main>

@@ -62,7 +62,7 @@ function LoginPage() {
 	return (
 		<Container mt="6rem">
 			<Card
-				shadow="sm"
+				shadow="xl"
 				maw="22rem"
 				mx="auto"
 				py={{ base: "xl", xs: "4rem" }}
