@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
+import "./styles/global.css";
+import { theme } from "./styles/theme";
 
 const router = createRouter({ routeTree });
 declare module "@tanstack/react-router" {
@@ -18,7 +20,7 @@ if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
 		<StrictMode>
-			<MantineProvider>
+			<MantineProvider theme={theme}>
 				<RouterProvider router={router} />
 			</MantineProvider>
 		</StrictMode>,

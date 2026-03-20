@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Corben:wght@400;700&family=Outfit:wght@100..900&display=swap");
+
+:root {
+	/* biome-ignore lint/complexity/noImportantStyles: <need to override mantine colour for error, which cannot be done in theme object> */
+	--mantine-color-error: #ff3399 !important;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#root {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	flex: 1;
+	background-color: var(--mantine-color-gray-1);
+}
+
+p {
+	text-wrap: pretty;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+ul {
+	list-style-type: none;
+}
