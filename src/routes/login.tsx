@@ -10,21 +10,30 @@ import {
 	Title,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAuth } from "@/contexts/auth";
 import logoImg from "/images/logo.png";
 
 export const Route = createFileRoute("/login")({
+	validateSearch: (search) => ({
+		redirect: (search.redirect as string) || "/",
+	}),
+	beforeLoad: ({ context, search }) => {
+		if (context.auth.user) throw redirect({ to: search.redirect });
+	},
 	component: LoginPage,
 });
 
 function LoginPage() {
+	const { auth } = Route.useRouteContext();
+	const { redirect } = Route.useSearch();
+	const navigate = Route.useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
-	const { login } = useAuth();
 	const isNarrowScreen = useMediaQuery("(max-width: 48em)");
-	const navigate = useNavigate();
+	const router = useRouter();
+
+	const { login } = auth;
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -40,7 +49,8 @@ function LoginPage() {
 				throw new Error("Username and/or password missing");
 
 			await login(usernameOrEmail.toString(), password.toString());
-			navigate({ to: "/" });
+			await router.invalidate();
+			navigate({ to: redirect });
 		} catch (err) {
 			if (err instanceof Error) {
 				console.error(err.message);
