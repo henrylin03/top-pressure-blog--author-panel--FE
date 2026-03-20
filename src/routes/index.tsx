@@ -1,13 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-	component: Index,
+	component: HomePageRedirection,
 });
 
-function Index() {
-	return (
-		<div className="p-2">
-			<h3>Welcome Home!</h3>
-		</div>
-	);
+function HomePageRedirection() {
+	const { auth } = Route.useRouteContext();
+	const { user } = auth;
+
+	if (!user) return <Navigate to="/login" />;
+	else return <Navigate to="/posts" />;
 }
