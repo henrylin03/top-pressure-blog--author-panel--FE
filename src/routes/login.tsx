@@ -10,7 +10,7 @@ import {
 	Title,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth";
 import logoImg from "/images/logo.png";
@@ -24,6 +24,7 @@ function LoginPage() {
 	const [error, setError] = useState("");
 	const { login } = useAuth();
 	const isNarrowScreen = useMediaQuery("(max-width: 48em)");
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -39,6 +40,7 @@ function LoginPage() {
 				throw new Error("Username and/or password missing");
 
 			await login(usernameOrEmail.toString(), password.toString());
+			navigate({ to: "/" });
 		} catch (err) {
 			if (err instanceof Error) {
 				console.error(err.message);
