@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Button, Container, Group, Title } from "@mantine/core";
+import { IconBallpen } from "@tabler/icons-react";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/posts")({
 	component: MyPostsPage,
@@ -6,7 +8,27 @@ export const Route = createFileRoute("/_authenticated/posts")({
 
 function MyPostsPage() {
 	const { auth } = Route.useRouteContext();
-	console.log("auth:", auth);
+	if (!auth.user) return <Navigate to="/login" />;
 
-	return <h1>My posts</h1>;
+	const handleAddNewPost = () => {
+		return;
+	};
+
+	return (
+		<Container mt="xl">
+			<Group justify="space-between" align="center" component="header">
+				<Title order={2} size="2.5rem">
+					My Posts
+				</Title>
+				<Button
+					leftSection={<IconBallpen size={20} />}
+					size="lg"
+					mt="xs"
+					onClick={handleAddNewPost}
+				>
+					Write post
+				</Button>
+			</Group>
+		</Container>
+	);
 }
