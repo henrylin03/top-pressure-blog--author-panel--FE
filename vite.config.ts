@@ -13,4 +13,16 @@ export default defineConfig({
 		react(),
 		babel({ presets: [reactCompilerPreset()] }),
 	],
+	resolve: {
+		tsconfigPaths: true,
+	},
+	server: {
+		proxy: {
+			"/api": {
+				target: "http://localhost:6969",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ""),
+			},
+		},
+	},
 });

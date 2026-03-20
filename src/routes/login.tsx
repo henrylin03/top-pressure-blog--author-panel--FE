@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useAuth } from "@/contexts/auth";
 import logoImg from "/images/logo.png";
 
 export const Route = createFileRoute("/login")({
@@ -18,12 +19,35 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-	const [isLoading, _setIsLoading] = useState(false);
-	const [error, _setError] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState("");
+	const { login } = useAuth();
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		alert("submitted");
+		setIsLoading(true);
+		setError("");
+
+		const formData = new FormData(e.currentTarget);
+		const usernameOrEmail = formData.get("usernameOrEmail");
+		const password = formData.get("password");
+
+		try {
+			if (!usernameOrEmail || !password)
+				throw new Error("Username and/or password missing");
+
+			await login(usernameOrEmail.toString(), password.toString());
+		} catch (err) {
+			if (err instanceof Error) {
+				console.error(err.message);
+				setError(err.message);
+			} else {
+				console.error(err);
+				setError(String(err));
+			}
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -78,7 +102,7 @@ function LoginPage() {
 							)}
 							<li>
 								<Button size="lg" fullWidth type="submit" loading={isLoading}>
-									{isLoading ? "Signing in" : "Sign in"}
+									Sign in
 								</Button>
 							</li>
 						</Stack>
