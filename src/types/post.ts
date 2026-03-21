@@ -14,5 +14,5 @@ export type Post = {
 
 export type PostPreview = Pick<
 	Post,
-	"id" | "title" | "lastModifiedAt" | "publishedAt" | "comments"
+	"id" | "title" | "lastModifiedAt" | "isPublished" | "publishedAt" | "comments"
 >;

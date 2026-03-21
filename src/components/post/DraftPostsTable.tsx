@@ -2,6 +2,7 @@ import { Group, Table } from "@mantine/core";
 import { IconMessage } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import type { PostPreview } from "@/types/post";
+import Menu from "./Menu";
 
 interface Props {
 	posts: PostPreview[];
@@ -21,6 +22,9 @@ const DraftPostsTable = ({ posts }: Props) => {
 						<IconMessage size={18} opacity={0.6} />
 						<span>{p.comments.length}</span>
 					</Group>
+				</Table.Td>
+				<Table.Td>
+					<Menu post={p} />
 				</Table.Td>
 			</Table.Tr>
 		);
