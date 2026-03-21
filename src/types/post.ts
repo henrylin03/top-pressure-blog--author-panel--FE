@@ -6,6 +6,7 @@ export type Post = {
 	lede: string;
 	text: string;
 	lastModifiedAt: Date;
+	isPublished: boolean;
 	publishedAt: Date | null;
 	timeToReadInMinutes: number;
 	comments: Comment[];

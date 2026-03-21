@@ -1,6 +1,7 @@
 import { Button, Container, Group, Tabs, Title } from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
+import PublishedPostsTable from "@/components/post/PublishedPostsTable";
 import { JWT_LOCALSTORAGE_KEY } from "@/contexts/auth";
 import { useFetchPosts } from "@/hooks/useFetchPosts";
 
@@ -16,9 +17,8 @@ function MyPostsPage() {
 	const { auth } = Route.useRouteContext();
 	if (!auth.user) return <Navigate to="/login" />;
 
-	const handleAddNewPost = () => {
-		return;
-	};
+	if (isLoading) return <p>Loading...</p>;
+	if (error) console.error(error);
 
 	return (
 		<Container mt="xl">
@@ -26,12 +26,7 @@ function MyPostsPage() {
 				<Title order={2} size="2.5rem">
 					My Posts
 				</Title>
-				<Button
-					leftSection={<IconBallpen size={20} />}
-					size="lg"
-					mt="xs"
-					onClick={handleAddNewPost}
-				>
+				<Button leftSection={<IconBallpen size={20} />} size="lg" mt="xs">
 					Write post
 				</Button>
 			</Group>
@@ -42,6 +37,10 @@ function MyPostsPage() {
 					<Tabs.Tab value="published">Published</Tabs.Tab>
 				</Tabs.List>
 			</Tabs>
+
+			<section>
+				<PublishedPostsTable posts={posts} />
+			</section>
 		</Container>
 	);
 }
