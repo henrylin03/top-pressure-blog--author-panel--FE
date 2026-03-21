@@ -12,9 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedPostsRouteImport } from './routes/_authenticated/posts'
-import { Route as AuthenticatedPostsPublishedRouteImport } from './routes/_authenticated/posts.published'
-import { Route as AuthenticatedPostsDraftRouteImport } from './routes/_authenticated/posts.draft'
+import { Route as AuthenticatedNewPostRouteImport } from './routes/_authenticated/new-post'
+import { Route as AuthenticatedPostsRouteRouteImport } from './routes/_authenticated/posts/route'
+import { Route as AuthenticatedPostsPublishedRouteImport } from './routes/_authenticated/posts/published'
+import { Route as AuthenticatedPostsDraftRouteImport } from './routes/_authenticated/posts/draft'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -30,7 +31,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedPostsRoute = AuthenticatedPostsRouteImport.update({
+const AuthenticatedNewPostRoute = AuthenticatedNewPostRouteImport.update({
+  id: '/new-post',
+  path: '/new-post',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPostsRouteRoute = AuthenticatedPostsRouteRouteImport.update({
   id: '/posts',
   path: '/posts',
   getParentRoute: () => AuthenticatedRoute,
@@ -39,25 +45,27 @@ const AuthenticatedPostsPublishedRoute =
   AuthenticatedPostsPublishedRouteImport.update({
     id: '/published',
     path: '/published',
-    getParentRoute: () => AuthenticatedPostsRoute,
+    getParentRoute: () => AuthenticatedPostsRouteRoute,
   } as any)
 const AuthenticatedPostsDraftRoute = AuthenticatedPostsDraftRouteImport.update({
   id: '/draft',
   path: '/draft',
-  getParentRoute: () => AuthenticatedPostsRoute,
+  getParentRoute: () => AuthenticatedPostsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/posts': typeof AuthenticatedPostsRouteWithChildren
+  '/posts': typeof AuthenticatedPostsRouteRouteWithChildren
+  '/new-post': typeof AuthenticatedNewPostRoute
   '/posts/draft': typeof AuthenticatedPostsDraftRoute
   '/posts/published': typeof AuthenticatedPostsPublishedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/posts': typeof AuthenticatedPostsRouteWithChildren
+  '/posts': typeof AuthenticatedPostsRouteRouteWithChildren
+  '/new-post': typeof AuthenticatedNewPostRoute
   '/posts/draft': typeof AuthenticatedPostsDraftRoute
   '/posts/published': typeof AuthenticatedPostsPublishedRoute
 }
@@ -66,21 +74,35 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/_authenticated/posts': typeof AuthenticatedPostsRouteWithChildren
+  '/_authenticated/posts': typeof AuthenticatedPostsRouteRouteWithChildren
+  '/_authenticated/new-post': typeof AuthenticatedNewPostRoute
   '/_authenticated/posts/draft': typeof AuthenticatedPostsDraftRoute
   '/_authenticated/posts/published': typeof AuthenticatedPostsPublishedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/posts' | '/posts/draft' | '/posts/published'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/posts'
+    | '/new-post'
+    | '/posts/draft'
+    | '/posts/published'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/posts' | '/posts/draft' | '/posts/published'
+  to:
+    | '/'
+    | '/login'
+    | '/posts'
+    | '/new-post'
+    | '/posts/draft'
+    | '/posts/published'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/login'
     | '/_authenticated/posts'
+    | '/_authenticated/new-post'
     | '/_authenticated/posts/draft'
     | '/_authenticated/posts/published'
   fileRoutesById: FileRoutesById
@@ -114,11 +136,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/new-post': {
+      id: '/_authenticated/new-post'
+      path: '/new-post'
+      fullPath: '/new-post'
+      preLoaderRoute: typeof AuthenticatedNewPostRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/posts': {
       id: '/_authenticated/posts'
       path: '/posts'
       fullPath: '/posts'
-      preLoaderRoute: typeof AuthenticatedPostsRouteImport
+      preLoaderRoute: typeof AuthenticatedPostsRouteRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/posts/published': {
@@ -126,37 +155,42 @@ declare module '@tanstack/react-router' {
       path: '/published'
       fullPath: '/posts/published'
       preLoaderRoute: typeof AuthenticatedPostsPublishedRouteImport
-      parentRoute: typeof AuthenticatedPostsRoute
+      parentRoute: typeof AuthenticatedPostsRouteRoute
     }
     '/_authenticated/posts/draft': {
       id: '/_authenticated/posts/draft'
       path: '/draft'
       fullPath: '/posts/draft'
       preLoaderRoute: typeof AuthenticatedPostsDraftRouteImport
-      parentRoute: typeof AuthenticatedPostsRoute
+      parentRoute: typeof AuthenticatedPostsRouteRoute
     }
   }
 }
 
-interface AuthenticatedPostsRouteChildren {
+interface AuthenticatedPostsRouteRouteChildren {
   AuthenticatedPostsDraftRoute: typeof AuthenticatedPostsDraftRoute
   AuthenticatedPostsPublishedRoute: typeof AuthenticatedPostsPublishedRoute
 }
 
-const AuthenticatedPostsRouteChildren: AuthenticatedPostsRouteChildren = {
-  AuthenticatedPostsDraftRoute: AuthenticatedPostsDraftRoute,
-  AuthenticatedPostsPublishedRoute: AuthenticatedPostsPublishedRoute,
-}
+const AuthenticatedPostsRouteRouteChildren: AuthenticatedPostsRouteRouteChildren =
+  {
+    AuthenticatedPostsDraftRoute: AuthenticatedPostsDraftRoute,
+    AuthenticatedPostsPublishedRoute: AuthenticatedPostsPublishedRoute,
+  }
 
-const AuthenticatedPostsRouteWithChildren =
-  AuthenticatedPostsRoute._addFileChildren(AuthenticatedPostsRouteChildren)
+const AuthenticatedPostsRouteRouteWithChildren =
+  AuthenticatedPostsRouteRoute._addFileChildren(
+    AuthenticatedPostsRouteRouteChildren,
+  )
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedPostsRoute: typeof AuthenticatedPostsRouteWithChildren
+  AuthenticatedPostsRouteRoute: typeof AuthenticatedPostsRouteRouteWithChildren
+  AuthenticatedNewPostRoute: typeof AuthenticatedNewPostRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedPostsRoute: AuthenticatedPostsRouteWithChildren,
+  AuthenticatedPostsRouteRoute: AuthenticatedPostsRouteRouteWithChildren,
+  AuthenticatedNewPostRoute: AuthenticatedNewPostRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

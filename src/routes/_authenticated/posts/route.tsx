@@ -3,6 +3,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { IconBallpen } from "@tabler/icons-react";
 import {
 	createFileRoute,
+	Link,
 	Navigate,
 	Outlet,
 	useLocation,
@@ -11,7 +12,7 @@ import {
 export const Route = createFileRoute("/_authenticated/posts")({
 	component: MyPostsPage,
 	beforeLoad: ({ location }) => {
-		if (location.pathname === "/posts")
+		if (location.pathname === "/posts/" || location.pathname === "/posts")
 			throw Route.redirect({ to: "/posts/draft", replace: true });
 	},
 });
@@ -40,6 +41,8 @@ function MyPostsPage() {
 						leftSection={<IconBallpen size={20} />}
 						size={isNarrowScreen ? "md" : "lg"}
 						mt="xs"
+						component={Link}
+						to="/new-post"
 					>
 						Write post
 					</Button>
