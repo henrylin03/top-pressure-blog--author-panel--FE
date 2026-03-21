@@ -1,4 +1,5 @@
 import { Table } from "@mantine/core";
+import dayjs from "dayjs";
 import type { PostPreview } from "@/types/post";
 
 interface Props {
@@ -8,11 +9,16 @@ interface Props {
 const PublishedPostsTable = ({ posts }: Props) => {
 	const rows = posts.map((p) => {
 		if (!p.publishedAt) return null;
+
+		const DATE_FORMAT = "D MMM YYYY";
+		const publishedDate = dayjs(p.publishedAt).format(DATE_FORMAT);
+		const lastModifiedDate = dayjs(p.lastModifiedAt).format(DATE_FORMAT);
+
 		return (
 			<Table.Tr key={p.id}>
 				<Table.Td>{p.title}</Table.Td>
-				<Table.Td>{String(p.publishedAt)}</Table.Td>
-				<Table.Td>{String(p.lastModifiedAt)}</Table.Td>
+				<Table.Td>{publishedDate}</Table.Td>
+				<Table.Td>{lastModifiedDate}</Table.Td>
 				<Table.Td>{p.comments.length}</Table.Td>
 			</Table.Tr>
 		);
@@ -21,11 +27,11 @@ const PublishedPostsTable = ({ posts }: Props) => {
 	return (
 		<Table withRowBorders={false}>
 			<Table.Thead>
-				<Table.Tr>
-					<Table.Th>Title</Table.Th>
-					<Table.Th>Published</Table.Th>
-					<Table.Th>Last modified</Table.Th>
-					<Table.Th>Comments</Table.Th>
+				<Table.Tr c="gray.6">
+					<Table.Th fw="normal">Title</Table.Th>
+					<Table.Th fw="normal">Published</Table.Th>
+					<Table.Th fw="normal">Last modified</Table.Th>
+					<Table.Th fw="normal">Comments</Table.Th>
 				</Table.Tr>
 			</Table.Thead>
 

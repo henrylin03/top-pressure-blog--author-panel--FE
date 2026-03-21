@@ -1,4 +1,4 @@
-import { Button, Container, Group, Tabs, Title } from "@mantine/core";
+import { Button, Container, Group, Stack, Tabs, Title } from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import PublishedPostsTable from "@/components/post/PublishedPostsTable";
@@ -22,25 +22,25 @@ function MyPostsPage() {
 
 	return (
 		<Container mt="xl">
-			<Group justify="space-between" align="center" component="header">
-				<Title order={2} size="2.5rem">
-					My Posts
-				</Title>
-				<Button leftSection={<IconBallpen size={20} />} size="lg" mt="xs">
-					Write post
-				</Button>
-			</Group>
-
-			<Tabs component="nav" variant="default" mt="xl" defaultValue="draft">
-				<Tabs.List grow>
-					<Tabs.Tab value="draft">Draft</Tabs.Tab>
-					<Tabs.Tab value="published">Published</Tabs.Tab>
-				</Tabs.List>
-			</Tabs>
-
-			<section>
-				<PublishedPostsTable posts={posts} />
-			</section>
+			<Stack gap="xl">
+				<Group justify="space-between" align="center" component="header">
+					<Title order={2} size="2.5rem">
+						My Posts
+					</Title>
+					<Button leftSection={<IconBallpen size={20} />} size="lg" mt="xs">
+						Write post
+					</Button>
+				</Group>
+				<Tabs component="nav" variant="default" defaultValue="draft">
+					<Tabs.List grow>
+						<Tabs.Tab value="draft">Draft</Tabs.Tab>
+						<Tabs.Tab value="published">Published</Tabs.Tab>
+					</Tabs.List>
+				</Tabs>
+				<section>
+					<PublishedPostsTable posts={posts} />
+				</section>
+			</Stack>
 		</Container>
 	);
 }
