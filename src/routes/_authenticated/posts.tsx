@@ -1,12 +1,18 @@
 import { Button, Container, Group, Tabs, Title } from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { JWT_LOCALSTORAGE_KEY } from "@/contexts/auth";
+import { useFetchPosts } from "@/hooks/useFetchPosts";
 
 export const Route = createFileRoute("/_authenticated/posts")({
 	component: MyPostsPage,
 });
 
 function MyPostsPage() {
+	const { posts, isLoading, error } = useFetchPosts(
+		"/api/users/me/posts",
+		localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "",
+	);
 	const { auth } = Route.useRouteContext();
 	if (!auth.user) return <Navigate to="/login" />;
 
