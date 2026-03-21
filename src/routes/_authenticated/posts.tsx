@@ -9,6 +9,10 @@ import {
 
 export const Route = createFileRoute("/_authenticated/posts")({
 	component: MyPostsPage,
+	beforeLoad: ({ location }) => {
+		if (location.pathname === "/posts")
+			throw Route.redirect({ to: "/posts/draft", replace: true });
+	},
 });
 
 const VALID_TAB_VALUES = ["draft", "published"];
