@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_authenticated/posts/published")({
 });
 
 function MyPublishedPostsComponent() {
-	const { posts, isLoading, error } = useFetchPosts(
+	const { posts, isLoading, error, fetchData } = useFetchPosts(
 		"/api/users/me/posts?published=true",
 		localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "",
 	);
@@ -20,5 +20,5 @@ function MyPublishedPostsComponent() {
 		return <Text>Error occurred: {error}</Text>;
 	}
 
-	return <PublishedPostsTable posts={posts} />;
+	return <PublishedPostsTable posts={posts} fetchData={fetchData} />;
 }

@@ -6,9 +6,10 @@ import Menu from "./Menu";
 
 interface Props {
 	posts: PostPreview[];
+	fetchData: () => Promise<void>;
 }
 
-const DraftPostsTable = ({ posts }: Props) => {
+const DraftPostsTable = ({ posts, fetchData }: Props) => {
 	const rows = posts.map((p) => {
 		const DATE_FORMAT = "D MMM YYYY";
 		const lastModifiedDate = dayjs(p.lastModifiedAt).format(DATE_FORMAT);
@@ -24,7 +25,7 @@ const DraftPostsTable = ({ posts }: Props) => {
 					</Group>
 				</Table.Td>
 				<Table.Td>
-					<Menu post={p} />
+					<Menu post={p} fetchData={fetchData} />
 				</Table.Td>
 			</Table.Tr>
 		);
