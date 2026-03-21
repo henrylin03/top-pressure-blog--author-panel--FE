@@ -8,8 +8,7 @@ import {
 	Title,
 } from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
-import { createFileRoute, Navigate } from "@tanstack/react-router";
-import PublishedPostsTable from "@/components/post/PublishedPostsTable";
+import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 import { JWT_LOCALSTORAGE_KEY } from "@/contexts/auth";
 import { useFetchPosts } from "@/hooks/useFetchPosts";
 
@@ -18,10 +17,13 @@ export const Route = createFileRoute("/_authenticated/posts")({
 });
 
 function MyPostsPage() {
+	const navigate = Route.useNavigate();
+
 	const { posts, isLoading, error } = useFetchPosts(
 		"/api/users/me/posts",
 		localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "",
 	);
+
 	const { auth } = Route.useRouteContext();
 	if (!auth.user) return <Navigate to="/login" />;
 
@@ -42,15 +44,17 @@ function MyPostsPage() {
 						Write post
 					</Button>
 				</Group>
-				<Tabs component="nav" variant="default" defaultValue="draft">
+				<Tabs
+					component="nav"
+					onChange={(value) => navigate({ to: `/posts/${value}` })}
+				>
 					<Tabs.List grow>
 						<Tabs.Tab value="draft">Draft</Tabs.Tab>
 						<Tabs.Tab value="published">Published</Tabs.Tab>
 					</Tabs.List>
 				</Tabs>
-				<section>
-					<PublishedPostsTable posts={posts} />
-				</section>
+
+				<Outlet />
 			</Stack>
 		</Container>
 	);
