@@ -1,4 +1,4 @@
-import { Button, Container, Group, Title } from "@mantine/core";
+import { Button, Container, Group, Tabs, Title } from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 
@@ -29,6 +29,13 @@ function MyPostsPage() {
 					Write post
 				</Button>
 			</Group>
+
+			<Tabs component="nav" variant="default" mt="xl" defaultValue="draft">
+				<Tabs.List grow>
+					<Tabs.Tab value="draft">Draft</Tabs.Tab>
+					<Tabs.Tab value="published">Published</Tabs.Tab>
+				</Tabs.List>
+			</Tabs>
 		</Container>
 	);
 }
