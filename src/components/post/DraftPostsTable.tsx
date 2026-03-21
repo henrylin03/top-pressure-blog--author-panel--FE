@@ -12,7 +12,7 @@ const DraftPostsTable = ({ posts }: Props) => {
 		const lastModifiedDate = dayjs(p.lastModifiedAt).format(DATE_FORMAT);
 
 		return (
-			<Table.Tr key={p.id}>
+			<Table.Tr key={p.id} fz="md">
 				<Table.Td>{p.title}</Table.Td>
 				<Table.Td>{lastModifiedDate}</Table.Td>
 				<Table.Td>{p.comments.length}</Table.Td>
