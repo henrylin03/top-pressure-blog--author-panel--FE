@@ -15,7 +15,6 @@ export const useFetchPosts = (url: string, jwt: string) => {
 					headers: { Authorization: `Bearer ${jwt}` },
 				});
 				const json = await res.json();
-				console.log("json:", json);
 				setPosts(json.posts);
 			} catch (error) {
 				error instanceof Error
