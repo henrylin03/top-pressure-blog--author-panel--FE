@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Corben:wght@400;700&family=Outfit:wght@100..900&display=swap");
 
 :root {
-	/* biome-ignore lint/complexity/noImportantStyles: <need to override mantine colour for error, which cannot be done in theme object> */
-	--mantine-color-error: #ff3399 !important;
+	--pink: #ff3399;
+	/* biome-ignore lint/complexity/noImportantStyles: <need to override mantine colour for pink and error> */
+	--mantine-color-pink-text: var(--pink) !important;
+	--mantine-color-error: var(--pink);
 }
 
 * {

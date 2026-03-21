@@ -35,7 +35,7 @@ const Menu = ({ post }: Props) => {
 				<MantineMenu.Divider />
 				<MantineMenu.Item>Manage comments</MantineMenu.Item>
 				<MantineMenu.Divider />
-				<MantineMenu.Item>Delete post</MantineMenu.Item>
+				<MantineMenu.Item c="pink">Delete post</MantineMenu.Item>
 			</MantineMenu.Dropdown>
 		</MantineMenu>
 	);
