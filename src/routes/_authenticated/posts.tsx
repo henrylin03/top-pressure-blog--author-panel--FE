@@ -1,4 +1,12 @@
-import { Button, Container, Group, Stack, Tabs, Title } from "@mantine/core";
+import {
+	Button,
+	Container,
+	Group,
+	Stack,
+	Tabs,
+	Text,
+	Title,
+} from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import PublishedPostsTable from "@/components/post/PublishedPostsTable";
@@ -18,7 +26,10 @@ function MyPostsPage() {
 	if (!auth.user) return <Navigate to="/login" />;
 
 	if (isLoading) return <p>Loading...</p>;
-	if (error) console.error(error);
+	if (error) {
+		console.error(error);
+		return <Text>Error occurred: {error}</Text>;
+	}
 
 	return (
 		<Container mt="xl">
