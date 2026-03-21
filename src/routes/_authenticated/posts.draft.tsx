@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_authenticated/posts/draft")({
 });
 
 function MyDraftPostsComponent() {
-	const { posts, isLoading, error } = useFetchPosts(
+	const { posts, isLoading, error, fetchData } = useFetchPosts(
 		"/api/users/me/posts?published=false",
 		localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "",
 	);
@@ -20,5 +20,5 @@ function MyDraftPostsComponent() {
 		return <Text>Error occurred: {error}</Text>;
 	}
 
-	return <DraftPostsTable posts={posts} />;
+	return <DraftPostsTable posts={posts} fetchData={fetchData} />;
 }

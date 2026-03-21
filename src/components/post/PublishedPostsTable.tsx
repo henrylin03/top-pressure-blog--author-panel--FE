@@ -6,9 +6,10 @@ import Menu from "./Menu";
 
 interface Props {
 	posts: PostPreview[];
+	fetchData: () => Promise<void>;
 }
 
-const PublishedPostsTable = ({ posts }: Props) => {
+const PublishedPostsTable = ({ posts, fetchData }: Props) => {
 	const rows = posts.map((p) => {
 		if (!p.publishedAt) return null;
 
@@ -28,7 +29,7 @@ const PublishedPostsTable = ({ posts }: Props) => {
 					</Group>
 				</Table.Td>
 				<Table.Td>
-					<Menu post={p} />
+					<Menu post={p} fetchData={fetchData} />
 				</Table.Td>
 			</Table.Tr>
 		);

@@ -1,24 +1,24 @@
 import { ActionIcon, Menu as MantineMenu } from "@mantine/core";
 import { IconDots } from "@tabler/icons-react";
-import { useRouter } from "@tanstack/react-router";
 import { JWT_LOCALSTORAGE_KEY } from "@/contexts/auth";
 import type { PostPreview } from "@/types/post";
 
 interface Props {
 	post: PostPreview;
+	fetchData: () => Promise<void>;
 }
 
-const Menu = ({ post }: Props) => {
-	const jwt = localStorage.getItem(JWT_LOCALSTORAGE_KEY);
-	const router = useRouter();
+const Menu = ({ post, fetchData }: Props) => {
+	const jwt = localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "";
 
 	const unpublishPost = async (postId: PostPreview["id"]) => {
 		const response = await fetch(`/api/posts/${postId}/draft`, {
 			method: "PATCH",
 			headers: { Authorization: `Bearer ${jwt}` },
 		});
-		if (response.ok) return router.invalidate();
-		else console.error(response.status); // TODO: need better error handling tbh
+		if (response.ok) return fetchData();
+		const json = await response.json();
+		console.error("Error when trying to publish post:", json.error); // TODO: need better error handling tbh
 	};
 
 	const publishPost = async (postId: PostPreview["id"]) => {
@@ -26,8 +26,7 @@ const Menu = ({ post }: Props) => {
 			method: "PATCH",
 			headers: { Authorization: `Bearer ${jwt}` },
 		});
-		if (response.ok) return router.invalidate();
-
+		if (response.ok) return fetchData();
 		const json = await response.json();
 		console.error("Error when trying to publish post:", json.error); // TODO: need better error handling tbh
 	};
