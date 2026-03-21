@@ -20,5 +20,7 @@ function MyDraftPostsComponent() {
 		return <Text>Error occurred: {error}</Text>;
 	}
 
+	console.log("posts:", posts);
+
 	return <DraftPostsTable posts={posts} />;
 }
