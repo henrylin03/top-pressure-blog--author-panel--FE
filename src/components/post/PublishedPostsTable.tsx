@@ -1,4 +1,5 @@
-import { Table } from "@mantine/core";
+import { Group, Table } from "@mantine/core";
+import { IconMessage } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import type { PostPreview } from "@/types/post";
 
@@ -19,7 +20,12 @@ const PublishedPostsTable = ({ posts }: Props) => {
 				<Table.Td>{p.title}</Table.Td>
 				<Table.Td>{publishedDate}</Table.Td>
 				<Table.Td>{lastModifiedDate}</Table.Td>
-				<Table.Td>{p.comments.length}</Table.Td>
+				<Table.Td>
+					<Group gap="xs" align="center">
+						<IconMessage size={18} opacity={0.6} />
+						<span>{p.comments.length}</span>
+					</Group>
+				</Table.Td>
 			</Table.Tr>
 		);
 	});
