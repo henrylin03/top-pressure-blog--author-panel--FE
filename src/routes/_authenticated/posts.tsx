@@ -1,35 +1,31 @@
-import {
-	Button,
-	Container,
-	Group,
-	Stack,
-	Tabs,
-	Text,
-	Title,
-} from "@mantine/core";
+import { Button, Container, Group, Stack, Tabs, Title } from "@mantine/core";
 import { IconBallpen } from "@tabler/icons-react";
-import { createFileRoute, Navigate } from "@tanstack/react-router";
-import PublishedPostsTable from "@/components/post/PublishedPostsTable";
-import { JWT_LOCALSTORAGE_KEY } from "@/contexts/auth";
-import { useFetchPosts } from "@/hooks/useFetchPosts";
+import {
+	createFileRoute,
+	Navigate,
+	Outlet,
+	useLocation,
+} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/posts")({
 	component: MyPostsPage,
+	beforeLoad: ({ location }) => {
+		if (location.pathname === "/posts")
+			throw Route.redirect({ to: "/posts/draft", replace: true });
+	},
 });
 
+const VALID_TAB_VALUES = ["draft", "published"];
+
 function MyPostsPage() {
-	const { posts, isLoading, error } = useFetchPosts(
-		"/api/users/me/posts",
-		localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "",
-	);
+	const navigate = Route.useNavigate();
 	const { auth } = Route.useRouteContext();
+	const location = useLocation();
+
 	if (!auth.user) return <Navigate to="/login" />;
 
-	if (isLoading) return <p>Loading...</p>;
-	if (error) {
-		console.error(error);
-		return <Text>Error occurred: {error}</Text>;
-	}
+	let tabValue = location.pathname.split("/").pop();
+	if (!tabValue || !VALID_TAB_VALUES.includes(tabValue)) tabValue = "draft";
 
 	return (
 		<Container mt="xl">
@@ -42,15 +38,18 @@ function MyPostsPage() {
 						Write post
 					</Button>
 				</Group>
-				<Tabs component="nav" variant="default" defaultValue="draft">
+				<Tabs
+					component="nav"
+					value={tabValue}
+					onChange={(value) => navigate({ to: `/posts/${value}` })}
+				>
 					<Tabs.List grow>
 						<Tabs.Tab value="draft">Draft</Tabs.Tab>
 						<Tabs.Tab value="published">Published</Tabs.Tab>
 					</Tabs.List>
 				</Tabs>
-				<section>
-					<PublishedPostsTable posts={posts} />
-				</section>
+
+				<Outlet />
 			</Stack>
 		</Container>
 	);
