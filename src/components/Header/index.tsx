@@ -22,7 +22,13 @@ const Header = () => {
 						<Title order={1} fz="h3" mb={4} visibleFrom="sm">
 							Top Pressure
 						</Title>
-						<Divider orientation="vertical" size="sm" h={24} my="auto" />
+						<Divider
+							orientation="vertical"
+							size="sm"
+							h={24}
+							my="auto"
+							visibleFrom="sm"
+						/>
 						<Title order={1} fz="h3" mb={4} visibleFrom="sm">
 							Editor
 						</Title>
