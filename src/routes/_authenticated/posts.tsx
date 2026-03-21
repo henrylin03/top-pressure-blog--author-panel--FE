@@ -1,4 +1,5 @@
 import { Button, Container, Group, Stack, Tabs, Title } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { IconBallpen } from "@tabler/icons-react";
 import {
 	createFileRoute,
@@ -21,6 +22,7 @@ function MyPostsPage() {
 	const navigate = Route.useNavigate();
 	const { auth } = Route.useRouteContext();
 	const location = useLocation();
+	const isNarrowScreen = useMediaQuery("(max-width: 48em)");
 
 	if (!auth.user) return <Navigate to="/login" />;
 
@@ -31,10 +33,14 @@ function MyPostsPage() {
 		<Container mt="xl">
 			<Stack gap="xl">
 				<Group justify="space-between" align="center" component="header">
-					<Title order={2} size="2.5rem">
+					<Title order={2} size={isNarrowScreen ? "h1" : "2.5rem"}>
 						My Posts
 					</Title>
-					<Button leftSection={<IconBallpen size={20} />} size="lg" mt="xs">
+					<Button
+						leftSection={<IconBallpen size={20} />}
+						size={isNarrowScreen ? "md" : "lg"}
+						mt="xs"
+					>
 						Write post
 					</Button>
 				</Group>
