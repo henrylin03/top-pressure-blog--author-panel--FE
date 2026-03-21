@@ -16,8 +16,8 @@ const DraftPostsTable = ({ posts }: Props) => {
 		return (
 			<Table.Tr key={p.id} fz="md">
 				<Table.Td>{p.title}</Table.Td>
-				<Table.Td>{lastModifiedDate}</Table.Td>
-				<Table.Td>
+				<Table.Td visibleFrom="xs">{lastModifiedDate}</Table.Td>
+				<Table.Td visibleFrom="sm">
 					<Group gap="xs" align="center">
 						<IconMessage size={18} opacity={0.6} />
 						<span>{p.comments.length}</span>
@@ -35,8 +35,12 @@ const DraftPostsTable = ({ posts }: Props) => {
 			<Table.Thead>
 				<Table.Tr c="gray.6">
 					<Table.Th fw="normal">Title</Table.Th>
-					<Table.Th fw="normal">Last modified</Table.Th>
-					<Table.Th fw="normal">Comments</Table.Th>
+					<Table.Th fw="normal" visibleFrom="xs">
+						Last modified
+					</Table.Th>
+					<Table.Th fw="normal" visibleFrom="sm">
+						Comments
+					</Table.Th>
 				</Table.Tr>
 			</Table.Thead>
 
