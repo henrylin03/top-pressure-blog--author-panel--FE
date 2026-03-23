@@ -27,7 +27,6 @@ function LoginPage() {
 	const router = useRouter();
 
 	const { user, login } = auth;
-
 	if (user) return <Navigate to="/posts" />;
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {

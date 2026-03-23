@@ -1,7 +1,6 @@
 import { Text } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
 import DraftPostsTable from "@/components/post/DraftPostsTable";
-import { JWT_LOCALSTORAGE_KEY } from "@/contexts/auth";
 import { useFetchPosts } from "@/hooks/useFetchPosts";
 
 export const Route = createFileRoute("/_authenticated/posts/draft")({
@@ -9,15 +8,12 @@ export const Route = createFileRoute("/_authenticated/posts/draft")({
 });
 
 function MyDraftPostsComponent() {
-	const { posts, isLoading, error, fetchData } = useFetchPosts(
-		"/api/users/me/posts?published=false",
-		localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "",
-	);
+	const { posts, isLoading, error, fetchData } = useFetchPosts("draft");
 
-	if (isLoading) return <p>Loading...</p>;
+	if (isLoading) return <Text c="dimmed">Loading...</Text>;
 	if (error) {
 		console.error(error);
-		return <Text>Error occurred: {error}</Text>;
+		return <Text c="pink">Error occurred: {error}</Text>;
 	}
 
 	return <DraftPostsTable posts={posts} fetchData={fetchData} />;

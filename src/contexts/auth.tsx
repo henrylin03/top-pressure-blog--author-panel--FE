@@ -14,9 +14,12 @@ export const JWT_LOCALSTORAGE_KEY = "jwt";
 const validateJwt = async (token: string): Promise<User | undefined> => {
 	const removeJwt = () => localStorage.removeItem(JWT_LOCALSTORAGE_KEY);
 	try {
-		const res = await fetch("/api/validate-jwt", {
-			headers: { Authorization: `Bearer ${token}` },
-		});
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/api/v1/validate-jwt`,
+			{
+				headers: { Authorization: `Bearer ${token}` },
+			},
+		);
 		if (!res.ok) {
 			removeJwt();
 			return;
@@ -51,7 +54,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	}, []);
 
 	const login = async (usernameOrEmail: string, password: string) => {
-		const res = await fetch("/api/login", {
+		const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/login`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ usernameOrEmail, password }),

@@ -16,3 +16,5 @@ export type PostPreview = Pick<
 	Post,
 	"id" | "title" | "lastModifiedAt" | "isPublished" | "publishedAt" | "comments"
 >;
+
+export type PostPublishedStatus = "draft" | "published";

@@ -12,20 +12,26 @@ const Menu = ({ post, fetchData }: Props) => {
 	const jwt = localStorage.getItem(JWT_LOCALSTORAGE_KEY) || "";
 
 	const unpublishPost = async (postId: PostPreview["id"]) => {
-		const response = await fetch(`/api/posts/${postId}/draft`, {
-			method: "PATCH",
-			headers: { Authorization: `Bearer ${jwt}` },
-		});
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/api/v1/posts/${postId}/draft`,
+			{
+				method: "PATCH",
+				headers: { Authorization: `Bearer ${jwt}` },
+			},
+		);
 		if (response.ok) return fetchData();
 		const json = await response.json();
 		console.error("Error when trying to publish post:", json.error); // TODO: need better error handling tbh
 	};
 
 	const publishPost = async (postId: PostPreview["id"]) => {
-		const response = await fetch(`/api/posts/${postId}/publish`, {
-			method: "PATCH",
-			headers: { Authorization: `Bearer ${jwt}` },
-		});
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/api/v1/posts/${postId}/publish`,
+			{
+				method: "PATCH",
+				headers: { Authorization: `Bearer ${jwt}` },
+			},
+		);
 		if (response.ok) return fetchData();
 		const json = await response.json();
 		console.error("Error when trying to publish post:", json.error); // TODO: need better error handling tbh
