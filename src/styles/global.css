@@ -2,9 +2,10 @@
 
 :root {
 	--pink: #ff3399;
-	/* biome-ignore lint/complexity/noImportantStyles: <need to override mantine colour for pink and error> */
+	/* biome-ignore lint/complexity/noImportantStyles: <need to override mantine colour for pink> */
 	--mantine-color-pink-text: var(--pink) !important;
-	--mantine-color-error: var(--pink);
+	/* biome-ignore lint/complexity/noImportantStyles: <need to override mantine colour for error> */
+	--mantine-color-error: var(--pink) !important;
 }
 
 * {

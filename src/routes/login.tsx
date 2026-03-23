@@ -92,6 +92,7 @@ function LoginPage() {
 									required
 									name="usernameOrEmail"
 									size={isNarrowScreen ? "sm" : "md"}
+									error={!!error}
 								/>
 							</li>
 							<li>
@@ -100,6 +101,7 @@ function LoginPage() {
 									required
 									name="password"
 									size={isNarrowScreen ? "sm" : "md"}
+									error={!!error}
 								/>
 							</li>
 							{error && (
