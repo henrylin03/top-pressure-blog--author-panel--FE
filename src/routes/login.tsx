@@ -27,7 +27,6 @@ function LoginPage() {
 	const router = useRouter();
 
 	const { user, login } = auth;
-
 	if (user) return <Navigate to="/posts" />;
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -92,6 +91,7 @@ function LoginPage() {
 									required
 									name="usernameOrEmail"
 									size={isNarrowScreen ? "sm" : "md"}
+									error={!!error}
 								/>
 							</li>
 							<li>
@@ -100,6 +100,7 @@ function LoginPage() {
 									required
 									name="password"
 									size={isNarrowScreen ? "sm" : "md"}
+									error={!!error}
 								/>
 							</li>
 							{error && (
